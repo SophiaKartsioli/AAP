@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Users</h1>
+    <a th:href="@{/users/new}" class="btn btn-success mb-2">Create New User</a>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Bio</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.bioText}"></td>
+            <td>
+                <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-primary btn-sm">Edit</a>
+                <a th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
