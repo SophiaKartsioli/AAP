@@ -3,6 +3,7 @@ package AAP_CF8_Project.AAP.domain;
 import jakarta.persistence.*;
 
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -10,21 +11,31 @@ import java.util.Objects;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(name = "category_name", length = 30)
+    @Column(name = "category_name", length = 30, nullable = false)
     private String categoryName;
 
     @Column(name = "description_text", length = 600)
-    private String categoryText;
+    private String description;
 
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private List<ForumThread> forumThreads;
 
-    public int getCategoryId() {
+    public Long getId() {
         return id;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.id = categoryId;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<ForumThread> getThreads() {
+        return forumThreads;
+    }
+
+    public void setThreads(List<ForumThread> forumThreads) {
+        this.forumThreads = forumThreads;
     }
 
     public String getCategoryName() {
@@ -35,28 +46,29 @@ public class Category {
         this.categoryName = categoryName;
     }
 
-    public String getCategoryText() {
-        return categoryText;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCategoryText(String categoryText) {
-        this.categoryText = categoryText;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
     public String toString() {
-        return "Categorie{" +
-                "categoryId=" + id +
+        return "Category{" +
+                "id=" + id +
                 ", categoryName='" + categoryName + '\'' +
-                ", categoryText='" + categoryText + '\'' +
+                ", description='" + description + '\'' +
+                ", threads=" + forumThreads +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Category categorie = (Category) o;
-        return Objects.equals(id, categorie.id);
+        Category category = (Category) o;
+        return Objects.equals(id, category.id) && Objects.equals(categoryName, category.categoryName) && Objects.equals(description, category.description) && Objects.equals(forumThreads, category.forumThreads);
     }
 
     @Override

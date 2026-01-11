@@ -7,10 +7,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryRepository categoryRepositories1) {
-        this.categoryRepository = categoryRepositories1;
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
-    public Iterable<Category>findAll(){ return categoryRepository.findAll(); }
+    public Iterable<Category> findAll() {
+        return categoryRepository.findAll();
+    }
 }

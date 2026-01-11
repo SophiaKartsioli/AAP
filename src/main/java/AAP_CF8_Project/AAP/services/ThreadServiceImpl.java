@@ -1,6 +1,6 @@
 package AAP_CF8_Project.AAP.services;
 
-import AAP_CF8_Project.AAP.domain.Thread;
+import AAP_CF8_Project.AAP.domain.ForumThread;
 import AAP_CF8_Project.AAP.repository.ThreadRepository;
 
 
@@ -11,5 +11,5 @@ public class ThreadServiceImpl implements ThreadService {
     public ThreadServiceImpl(ThreadRepository threadRepositories) {this.threadRepository = threadRepositories;}
 
     @Override
-    public Iterable<Thread> findAll() {return threadRepository.findAll();}
+    public Iterable<ForumThread> findAll() {return threadRepository.findAll();}
 }

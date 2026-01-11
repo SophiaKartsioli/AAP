@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "THREADS")
-public class Thread {
+public class ForumThread {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -94,8 +94,8 @@ public class Thread {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Thread thread = (Thread) o;
-        return Objects.equals(id, thread.id);
+        ForumThread forumThread = (ForumThread) o;
+        return Objects.equals(id, forumThread.id);
     }
 
     @Override

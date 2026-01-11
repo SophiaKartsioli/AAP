@@ -1,8 +1,8 @@
 package AAP_CF8_Project.AAP.services;
 
 
-import AAP_CF8_Project.AAP.domain.Thread;
+import AAP_CF8_Project.AAP.domain.ForumThread;
 
 public interface ThreadService {
-    Iterable<Thread> findAll();
+    Iterable<ForumThread> findAll();
 }

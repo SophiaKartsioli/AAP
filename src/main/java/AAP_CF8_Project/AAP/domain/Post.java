@@ -9,17 +9,19 @@ import java.util.Objects;
 @Entity
 @Table(name = "POSTS")
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "post_id")
-    private int id;
+    @ManyToOne
+    @JoinColumn(name = "thread_id", nullable = false)
+    private ForumThread forumThread;
 
-    @Column(name = "category_id", nullable = false)
-    private int ctegoryId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User author;
 
-    @Column(name = "user_id", nullable = false)
-    private int userId;
 
     @Column(name = "content_text", length = 600)
     private String contentText;
@@ -27,6 +29,30 @@ public class Post {
 
     @Column(name = "created_date")
     private Date createdDate;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public ForumThread getThread() {
+        return forumThread;
+    }
+
+    public void setThread(ForumThread forumThread) {
+        this.forumThread = forumThread;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
 
     @OneToOne
     public Date getCreatedDate() {
@@ -45,40 +71,8 @@ public class Post {
         this.contentText = contentText;
     }
 
-    public int getUserId() {
-        return userId;
-    }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
-    public int getCtegoryId() {
-        return ctegoryId;
-    }
-
-    public void setCtegoryId(int ctegoryId) {
-        this.ctegoryId = ctegoryId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", ctegoryId=" + ctegoryId +
-                ", userId=" + userId +
-                ", contentText='" + contentText + '\'' +
-                ", createdDate=" + createdDate +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {
