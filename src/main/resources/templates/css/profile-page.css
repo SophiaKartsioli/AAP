@@ -1,0 +1,38 @@
+.profile-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 ;
+}
+
+.profile-header {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+
+.profile-cover {
+  height: 180px;
+  background: linear-gradient(135deg, #5e40c0, #918ee1);
+  background-size: cover;
+}
+
+
+.profile-info {
+  padding: 0 1.5rem 1rem;
+  position: relative;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  margin-top: -60px;
+  background-color: #fff;
+}

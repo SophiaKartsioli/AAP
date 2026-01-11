@@ -11,7 +11,7 @@ public class ForumThread {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @Column(name = "thread_id")
+    @Column(name = "thread_id", nullable = false)
     private Long id;
 
     @ManyToOne

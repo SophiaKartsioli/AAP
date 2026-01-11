@@ -19,7 +19,7 @@ public class PostLike {
     @Column(name = "post_id",  nullable = false)
     private int postId;
 
-    @OneToOne
+
     public int getId() {
         return id;
     }

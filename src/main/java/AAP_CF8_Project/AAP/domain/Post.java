@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -54,12 +55,12 @@ public class Post {
         this.author = author;
     }
 
-    @OneToOne
+
     public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
