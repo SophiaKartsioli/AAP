@@ -12,13 +12,15 @@ public class Thread {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name = "thread_id")
-    private int id;
+    private Long id;
 
-    @Column(name = "category_id", nullable = false)
-    private String categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-    @Column(name = "user_id", nullable = false)
-    private String authorId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User author;
 
     @Column(length = 255)
     private String title;
@@ -26,36 +28,31 @@ public class Thread {
     @Column(name = "content_text", nullable = false)
     private String contentText;
 
-
     @Column(name = "created_date")
     private Date createdsDate;
 
-
-    @Column(name = "edited_date")
-    private Date editedDate;
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public String getAuthorId() {
-        return authorId;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public String getTitle() {
@@ -82,24 +79,15 @@ public class Thread {
         this.createdsDate = createdsDate;
     }
 
-    public Date getEditedDate() {
-        return editedDate;
-    }
-
-    public void setEditedDate(Date editedDate) {
-        this.editedDate = editedDate;
-    }
-
     @Override
     public String toString() {
         return "Thread{" +
                 "id=" + id +
-                ", categoryId='" + categoryId + '\'' +
-                ", authorId='" + authorId + '\'' +
+                ", category=" + category +
+                ", author=" + author +
                 ", title='" + title + '\'' +
                 ", contentText='" + contentText + '\'' +
-                ", createwsDate=" + createdsDate +
-                ", editedDate=" + editedDate +
+                ", createdsDate=" + createdsDate +
                 '}';
     }
 
