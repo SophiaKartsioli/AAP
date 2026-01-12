@@ -56,14 +56,12 @@
                     class="profile-img profile-avatar">
 
             <div class="ms-3 mb-2 mt-3">
-                <h4 class="mb-0">Username</h4>
-                <p class="mt-2 mb-0">
-                    Artist • Digital Illustrator • Fanart
-                </p>
+                <h4 class="mb-0" th:text="${user.username}">Username</h4>
+                <p class="mt-2 mb-0" th:text="${user.bioText}">Artist • Digital Illustrator • Fanart</p>
             </div>
 
             <<div class="ms-auto mb-2 d-flex gap-2">
-            <a href="create-post.html" class="btn btn-secondary btn-sm">
+            <a href="/posts/create" class="btn btn-secondary btn-sm">
                 <i class="bi bi-plus-lg"></i> New Post
             </a>
 
@@ -96,6 +94,13 @@
                 <h6>No posts yet</h6>
                 <p class="text-muted">Share something to get started.</p>
                 <a href="/posts/create" class="btn btn-primary btn-sm">Create Post</a>
+            </div>
+
+            <div th:each="post : ${posts}" class="card mb-3">
+                <div class="card-body">
+                    <p th:text="${post.contentText}"></p>
+                    <p class="text-muted" th:text="${#temporals.format(post.createdDate, 'dd/MM/yyyy HH:mm:ss')}"></p>
+                </div>
             </div>
         </div>
     </div>

@@ -16,10 +16,6 @@ public class Post {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "thread_id", nullable = false)
-    private ForumThread forumThread;
-
-    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
 
@@ -29,7 +25,7 @@ public class Post {
 
 
     @Column(name = "created_date")
-    private Date createdDate;
+    private LocalDateTime  createdDate;
 
     public Long getId() {
         return id;
@@ -37,14 +33,6 @@ public class Post {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public ForumThread getThread() {
-        return forumThread;
-    }
-
-    public void setThread(ForumThread forumThread) {
-        this.forumThread = forumThread;
     }
 
     public User getAuthor() {
@@ -56,11 +44,11 @@ public class Post {
     }
 
 
-    public Date getCreatedDate() {
+    public LocalDateTime  getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 

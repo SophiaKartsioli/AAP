@@ -2,57 +2,59 @@ package AAP_CF8_Project.AAP.controller;
 
 import AAP_CF8_Project.AAP.domain.Post;
 import AAP_CF8_Project.AAP.domain.User;
-import AAP_CF8_Project.AAP.repository.PostRepository;
-import AAP_CF8_Project.AAP.repository.UserRepository;
+import AAP_CF8_Project.AAP.services.PostService;
+import AAP_CF8_Project.AAP.services.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 
 @Controller
+@RequestMapping("/posts")
 public class PostController {
-//    private final PostRepository postRepo;
-//    private final UserRepository userRepo;
-//
-//    public PostController(PostRepository postRepo, UserRepository userRepo) {
-//        this.postRepo = postRepo;
-//        this.userRepo = userRepo;
-//    }
-//
-//    @GetMapping("/posts/create")
-//    public String createPostForm() {
-//        return "create-post";
-//    }
-//
-//    @PostMapping("/posts")
-//    public String createPost(
-//            @RequestParam(required = false) String contentText) {
-//
-//        if (contentText == null || contentText.trim().isEmpty()) {
-//            return "redirect:/posts/create";
-//        }
-//
-//        User author = userRepo.findById(1)
-//                .orElseThrow(); // fake logged-in user
-//
-//        Post post = new Post();
-//        post.setAuthor(author);
-//        post.setContentText(contentText);
-//       // post.setCreatedDate(LocalDateTime.now());
-//        post.setThread(null); // PROFILE POST
-//
-//        postRepo.save(post);
-//
-//        return "redirect:/profile/1";
-//    }
-//
-//    @PostMapping("/posts/{id}/delete")
-//    public String deletePost(@PathVariable Long id) {
-//        postRepo.deleteById(id);
-//        return "redirect:/profile/1";
-//    }
+    private final PostService postService;
+    private final UserService userService;
+
+    // Folder to save uploaded images
+    private static final String UPLOAD_DIR = "uploads/";
+
+    public PostController(PostService postService, UserService userService) {
+        this.postService = postService;
+        this.userService = userService;
+    }
+
+    // Show create post page
+    @GetMapping("/create")
+    public String showCreateForm(Model model) {
+        model.addAttribute("post", new Post());
+        return "create_post";
+    }
+
+    // Handle post submission
+    @PostMapping("/create")
+    public String createPost(
+            @RequestParam("userId") int userId,
+            @RequestParam("content") String content,
+            @RequestParam(value = "image", required = false) MultipartFile imageFile
+    ) throws IOException {
+
+        User user = userService.findById(userId);
+        if (user == null) {
+            return "redirect:/profile/" + userId + "?error=UserNotFound";
+        }
+
+        Post post = new Post();
+        post.setAuthor(user);
+        post.setContentText(content);
+        post.setCreatedDate(LocalDateTime.now());
+
+        postService.save(post);
+
+        return "redirect:/profile/" + userId; // back to profile page
+    }
 }

@@ -48,9 +48,16 @@
 
             <h5 class="mb-3">Create Post</h5>
 
+            <!-- FORM START -->
+            <form action="/posts/create" method="post" enctype="multipart/form-data">
+
+                <!-- Hidden input for author/user ID -->
+                <input type="hidden" name="userId" value="1"> <!-- Replace 1 with logged-in user ID -->
+
             <!-- TEXT INPUT -->
             <textarea
                     id="postText"
+                    name="content"
                     class="form-control mb-2"
                     rows="4"
                     maxlength="280"
@@ -73,14 +80,16 @@
             <img id="imagePreview" class="img-fluid rounded mb-3 d-none" alt="Preview">
 
             <!-- ACTION BUTTONS -->
-            <div class="d-flex justify-content-end gap-2">
-                <a href="profile.html" class="btn btn-outline-secondary">
-                    Cancel
-                </a>
-                <button class="btn btn-primary">
-                    Post
-                </button>
-            </div>
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="/profile/1" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        Post
+                    </button>
+                </div>
+
+                </form>
 
         </div>
     </div>
