@@ -20,12 +20,17 @@ public class Post {
     private User author;
 
 
+
     @Column(name = "content_text", length = 600)
     private String contentText;
 
 
     @Column(name = "created_date")
     private LocalDateTime  createdDate;
+
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private PostImage image;
+
 
     public Long getId() {
         return id;
@@ -51,6 +56,19 @@ public class Post {
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
+
+
+    public PostImage getImage() {
+        return image;
+    }
+
+    public void setImage(PostImage image) {
+        this.image = image;
+        if (image != null) {
+            image.setPost(this); // maintain bidirectional consistency
+        }
+    }
+
 
     public String getContentText() {
         return contentText;

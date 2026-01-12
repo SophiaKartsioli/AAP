@@ -1,7 +1,10 @@
 package AAP_CF8_Project.AAP.controller;
 
 import AAP_CF8_Project.AAP.domain.Post;
+import AAP_CF8_Project.AAP.domain.PostImage;
 import AAP_CF8_Project.AAP.domain.User;
+import AAP_CF8_Project.AAP.repository.UserRepository;
+import AAP_CF8_Project.AAP.services.PostImageService;
 import AAP_CF8_Project.AAP.services.PostService;
 import AAP_CF8_Project.AAP.services.UserService;
 import org.springframework.stereotype.Controller;
@@ -19,13 +22,15 @@ import java.time.LocalDateTime;
 public class PostController {
     private final PostService postService;
     private final UserService userService;
+    private final PostImageService postImageService;
 
     // Folder to save uploaded images
     private static final String UPLOAD_DIR = "uploads/";
 
-    public PostController(PostService postService, UserService userService) {
+    public PostController(PostService postService, UserService userService, PostImageService postImageService) {
         this.postService = postService;
         this.userService = userService;
+        this.postImageService = postImageService;
     }
 
     // Show create post page
@@ -40,7 +45,7 @@ public class PostController {
     public String createPost(
             @RequestParam("userId") int userId,
             @RequestParam("content") String content,
-            @RequestParam(value = "image", required = false) MultipartFile imageFile
+            @RequestPart(value = "image", required = false) MultipartFile imageFile
     ) throws IOException {
 
         User user = userService.findById(userId);
@@ -52,6 +57,11 @@ public class PostController {
         post.setAuthor(user);
         post.setContentText(content);
         post.setCreatedDate(LocalDateTime.now());
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            PostImage postImage = postImageService.savePostImage(imageFile);
+            post.setImage(postImage);
+        }
 
         postService.save(post);
 

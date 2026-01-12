@@ -92,15 +92,18 @@
 
             <div th:if="${posts.isEmpty()}" class="card text-center p-4">
                 <h6>No posts yet</h6>
-                <p class="text-muted">Share something to get started.</p>
-                <a href="/posts/create" class="btn btn-primary btn-sm">Create Post</a>
-            </div>
-
-            <div th:each="post : ${posts}" class="card mb-3">
-                <div class="card-body">
-                    <p th:text="${post.contentText}"></p>
-                    <p class="text-muted" th:text="${#temporals.format(post.createdDate, 'dd/MM/yyyy HH:mm:ss')}"></p>
+                    <p class="text-muted">Share something to get started.</p>
+                    <a href="/posts/create" class="btn btn-primary btn-sm">Create Post</a>
                 </div>
+
+                <div th:each="post : ${posts}" class="card mb-3">
+                    <div class="card-body">
+                        <p th:text="${post.contentText}"></p>
+                        <div th:if="${post.image != null}" class="mb-2">
+                            <img th:src="@{${post.image.imageUrl}}" class="img-fluid rounded" alt="Post image">
+                        </div>
+                        <p class="text-muted" th:text="${#temporals.format(post.createdDate, 'dd/MM/yyyy HH:mm:ss')}"></p>
+                    </div>
             </div>
         </div>
     </div>
