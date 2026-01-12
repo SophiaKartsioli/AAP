@@ -67,7 +67,7 @@ public class UserController {
             userService.save(formUser);
         }
 
-        return "redirect:/users";
+        return "redirect:/profile/" + formUser.getId();
     }
 
     // Edit form
