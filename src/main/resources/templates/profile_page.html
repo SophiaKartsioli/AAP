@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,23 +51,25 @@
         <!-- INFO -->
         <div class="profile-info d-flex align-items-end">
             <img
-                    src="./img/hX9J4tSl.jpg"
+                    src="./images/f71030b6-77ed-4f42-913a-7e675060542c.jfif"
                     alt="Profile picture"
                     class="profile-img profile-avatar">
 
             <div class="ms-3 mb-2 mt-3">
-                <h4 class="mb-0" th:text="${user.username}">Username</h4>
-                <p class="mt-2 mb-0" th:text="${user.bioText}">Artist • Digital Illustrator • Fanart</p>
+                <h4 class="mb-0">Username</h4>
+                <p class="mt-2 mb-0">
+                    Artist • Digital Illustrator • Fanart
+                </p>
             </div>
 
             <<div class="ms-auto mb-2 d-flex gap-2">
-            <a href="/posts/create" class="btn btn-secondary btn-sm">
+            <a href="create-post.html" class="btn btn-secondary btn-sm">
                 <i class="bi bi-plus-lg"></i> New Post
             </a>
 
-            <button class="btn btn-outline-dark btn-sm">
-                Edit Profile
-            </button>
+            <a th:href="@{/profile/edit}" class="btn btn-outline-dark btn-sm">
+                <i class="bi bi-pencil"></i> Edit Profile
+            </a>
         </div>
 
         </div>
@@ -75,7 +77,7 @@
 
     <div class="row mt-4">
 
-        <!-- LEFT: PROFILE DETAILS -->
+        <!-- BIO -->
         <div class="col-md-4">
             <div class="card mb-3">
                 <div class="card-body">
@@ -87,23 +89,13 @@
             </div>
         </div>
 
-        <!-- RIGHT: USER POSTS -->
+        <!-- USER POSTS -->
         <div class="col-md-8">
 
             <div th:if="${posts.isEmpty()}" class="card text-center p-4">
                 <h6>No posts yet</h6>
-                    <p class="text-muted">Share something to get started.</p>
-                    <a href="/posts/create" class="btn btn-primary btn-sm">Create Post</a>
-                </div>
-
-                <div th:each="post : ${posts}" class="card mb-3">
-                    <div class="card-body">
-                        <p th:text="${post.contentText}"></p>
-                        <div th:if="${post.image != null}" class="mb-2">
-                            <img th:src="@{${post.image.imageUrl}}" class="img-fluid rounded" alt="Post image">
-                        </div>
-                        <p class="text-muted" th:text="${#temporals.format(post.createdDate, 'dd/MM/yyyy HH:mm:ss')}"></p>
-                    </div>
+                <p class="text-muted">Share something to get started.</p>
+                <a href="/posts/create" class="btn btn-primary btn-sm">Create Post</a>
             </div>
         </div>
     </div>

@@ -16,44 +16,22 @@
 </head>
 <body class="bg-light">
 
-  <!-- NAVIGATION BAR -->
-  <nav class="navbar navbar-dark navbar-expand-lg bg-dark py-3">
-    <div class="container-fluid">
-
-      <a class="navbar-brand text-off-white" href="">Artist Alley Portal</a>
-
-      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-        <span class="navbar-toggle-icon"></span>
-      </button>
-
-      <div class="navbar-nav ms-auto">
-        <a class="nav-item nav-link" href="">Home</a>
-        <a class="navbar-text">|</a>
-        <a class="nav-item nav-link" href="">Forum</a>
-        <a class="navbar-text">|</a>
-        <a class="nav-item nav-link" href="">Log In</a>
-      </div>
-
-    </div>
-
-  </nav>
-
   <!-- Carousel -->
 
   <div class="slideshow-container shadow-gradient">
 
     <div class="mySlides fade shadow-lg text-shadow">
-      <img src="./img/Fh__T15VIAAq_es.jpg" style="width: 100%;">
+      <img src="./images/8f585f8c-baaf-4c34-90a8-63aac7cc9d23.jfif" style="width: 100%;">
       <div class="text ">Discover Conventions in your nearby area!</div>
     </div>
 
     <div class="mySlides fade">
-      <img src="./img/Alexander_Heimann.jpg" style="width: 100%;">
+      <img src="./images/ab5768ce-08fa-459f-b022-d8bcd1218f44.jfif" style="width: 100%;">
       <div class="text">Share your experiences of your favourite convention!</div>
     </div>
 
     <div class="mySlides fade">
-      <img src="./img/2021-12-03+17.04.43.jpg" style="width: 100%;">
+      <img src="./images/dc0c3951-6116-4a8d-9ec6-02b0206feef1.jfif" style="width: 100%;">
       <div class="text ">Upload your booth and create your Artist Alley portfolio!</div>
     </div>
 
@@ -67,35 +45,28 @@
       <div class="card-text text-center display-6 mt-3 mb-4"> Login </div>
 
       <!-- Login Manually -->
-      <form th:action="@{/login}" method="post" th:object="${loginUser}">
+      <form action="">
 
         <div class="mb-3 input-group w-50 mx-auto">
-          <input class="form-control"
-                 type="text"
-                 th:field="*{usernameOrEmail}"
-                 placeholder="Username or Email"
-                 required>
+          <!-- <span class="input-group-text"><i class="fa-solid fa-user" ></i></span> -->
+          <input class="form-control"  type="text" placeholder="Username or Email">
         </div>
 
         <div class="mb-3 input-group w-50 mx-auto">
-          <input class="form-control"
-                 type="password"
-                 th:field="*{password}"
-                 placeholder="Password"
-                 required>
+          <!-- <span class="input-group-text"><i class="fa-solid fa-password"></i></span> -->
+          <input class="form-control" type="text" placeholder="Password">
         </div>
 
         <div class="text-center mb-3 ">
-          <button type="submit" class="btn btn-dark">Log In</button>
+          <button type="button" class="btn btn-dark">Log In</button>
         </div>
 
-        <p class="text-center text-danger" th:if="${error}" th:text="${error}"></p>
+        <p class="text-center mt-4 fst-italic text-muted">Are you not memeber yet? Click to create your account!</p>
 
-        <p class="text-center mt-4 fst-italic text-muted">Are you not member yet? Click to create your account!</p>
-
-        <div class="text-center mb-3">
-          <a th:href="@{/users/new}" class="btn btn-dark">Create Account</a>
+        <div class="text-center mb-3 ">
+          <button type="button" class="btn btn-dark">Create Account</button>
         </div>
+
 
       </form>
 
