@@ -8,50 +8,27 @@
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
-    <link rel="stylesheet" href="../static/css/registration.css">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 
     <title>AAP| Registrate</title>
 </head>
 
 <body class="bg-light">
 
-<!-- NAVIGATION BAR -->
-<nav class="navbar navbar-dark navbar-expand-lg bg-dark py-3">
-    <div class="container-fluid">
-
-        <a class="navbar-brand text-off-white" href="">Artist Alley Portal</a>
-
-        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggle-icon"></span>
-        </button>
-
-        <div class="navbar-nav ms-auto">
-            <a class="nav-item nav-link" href="">Home</a>
-            <a class="navbar-text">|</a>
-            <a class="nav-item nav-link" href="">My Profile</a>
-            <a class="navbar-text">|</a>
-            <a class="nav-item nav-link" href="">Log In</a>
-        </div>
-
-    </div>
-
-</nav>
-
 <!-- Carousel -->
 <div class="slideshow-container shadow-gradient">
-
     <div class="mySlides fade shadow-lg text-shadow">
-        <img src="./img/Fh__T15VIAAq_es.jpg" style="width: 100%;">
+        <img th:src="@{/images/8f585f8c-baaf-4c34-90a8-63aac7cc9d23.jfif}" style="width: 100%;">
         <div class="text ">Discover Conventions in your nearby area!</div>
     </div>
 
     <div class="mySlides fade">
-        <img src="./img/Alexander_Heimann.jpg" style="width: 100%;">
+        <img th:src="@{/images/ab5768ce-08fa-459f-b022-d8bcd1218f44.jfif}" style="width: 100%;">
         <div class="text">Share your experiences of your favourite convention!</div>
     </div>
 
     <div class="mySlides fade">
-        <img src="./img/2021-12-03+17.04.43.jpg" style="width: 100%;">
+        <img th:src="@{/images/dc0c3951-6116-4a8d-9ec6-02b0206feef1.jfif}" style="width: 100%;">
         <div class="text ">Upload your booth and create your Artist Alley portfolio!</div>
     </div>
 

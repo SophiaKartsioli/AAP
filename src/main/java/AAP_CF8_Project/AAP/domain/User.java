@@ -34,6 +34,13 @@ public class User {
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
 
+    @Column(name = "location", length = 255)
+    private String location;
+
+    @Column(name = "website" , length = 255)
+    private String website;
+
+
     public User(){};
 
 
@@ -92,15 +99,34 @@ public class User {
         this.createdDate = createdDate;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
                 ", bioText='" + bioText + '\'' +
                 ", createdDate=" + createdDate +
                 ", lastLogin=" + lastLogin +
+                ", location='" + location + '\'' +
+                ", website='" + website + '\'' +
                 '}';
     }
 

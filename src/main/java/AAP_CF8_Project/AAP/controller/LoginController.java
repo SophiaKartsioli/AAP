@@ -48,10 +48,8 @@ public class LoginController {
         }
 
         session.setAttribute("loggedUser", userOpt.get());
-        return "redirect:/home_page";
+        return "redirect:/profile/" + userOpt.get().getId();
     }
-
-
 
 
 
