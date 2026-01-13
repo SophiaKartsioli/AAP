@@ -3,6 +3,8 @@ package AAP_CF8_Project.AAP.services;
 import AAP_CF8_Project.AAP.domain.Post;
 import AAP_CF8_Project.AAP.domain.User;
 import AAP_CF8_Project.AAP.repository.PostRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,5 +41,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deleteById(Long id) {
         postRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Post> findAllPosts(Pageable pageable) {
+        return postRepository.findAll(pageable);
     }
 }

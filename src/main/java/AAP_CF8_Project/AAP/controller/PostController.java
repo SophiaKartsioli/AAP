@@ -7,6 +7,7 @@ import AAP_CF8_Project.AAP.repository.UserRepository;
 import AAP_CF8_Project.AAP.services.PostImageService;
 import AAP_CF8_Project.AAP.services.PostService;
 import AAP_CF8_Project.AAP.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,18 +44,19 @@ public class PostController {
     // Handle post submission
     @PostMapping("/create")
     public String createPost(
-            @RequestParam("userId") int userId,
+            HttpSession session,
             @RequestParam("content") String content,
             @RequestPart(value = "image", required = false) MultipartFile imageFile
     ) throws IOException {
 
-        User user = userService.findById(userId);
-        if (user == null) {
-            return "redirect:/profile/" + userId + "?error=UserNotFound";
+        User loggedUser = (User) session.getAttribute("loggedUser");
+        if (loggedUser == null) {
+            // If no user is logged in, redirect to login page
+            return "redirect:/login?error=NotLoggedIn";
         }
 
         Post post = new Post();
-        post.setAuthor(user);
+        post.setAuthor(loggedUser);
         post.setContentText(content);
         post.setCreatedDate(LocalDateTime.now());
 
@@ -65,6 +67,6 @@ public class PostController {
 
         postService.save(post);
 
-        return "redirect:/profile/" + userId; // back to profile page
+        return "redirect:/profile/" + loggedUser.getId(); // back to profile page
     }
 }

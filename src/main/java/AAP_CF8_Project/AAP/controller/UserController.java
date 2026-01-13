@@ -3,6 +3,7 @@ package AAP_CF8_Project.AAP.controller;
 
 import AAP_CF8_Project.AAP.domain.User;
 import AAP_CF8_Project.AAP.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,7 @@ public class UserController {
 
 
     @PostMapping()
-    public String saveUser(@ModelAttribute("user") User formUser){
+    public String saveUser(@ModelAttribute("user") User formUser,  HttpSession session){
         LocalDateTime now = LocalDateTime.now();
 
         if (formUser.getId() != 0 && userService.existsById(formUser.getId())) {
@@ -66,6 +67,8 @@ public class UserController {
             formUser.setLastLogin(now);
             userService.save(formUser);
         }
+
+        session.setAttribute("loggedUser", formUser);
 
         return "redirect:/profile/" + formUser.getId();
     }

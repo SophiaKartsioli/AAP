@@ -54,3 +54,29 @@ h4{
   justify-content: center;
 
 }
+
+.card {
+    border-radius: 1rem;
+    border: none;
+}
+
+.card img {
+    max-height: 300px;
+    object-fit: cover;
+}
+
+.pagination .page-item .page-link {
+    color: #7d7676;
+    border-radius: 0.5rem;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #2c2b2b;
+    color: #e6e3e2;
+    border: none;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #aaa;
+    pointer-events: none;
+}
