@@ -47,4 +47,9 @@ public class PostServiceImpl implements PostService {
     public Page<Post> findAllPosts(Pageable pageable) {
         return postRepository.findAll(pageable);
     }
+
+    @Override
+    public int countAllPosts() {
+        return (int) postRepository.count();
+    }
 }

@@ -14,5 +14,6 @@ public interface PostService {
     Post findById(Long id);
     void deleteById(Long id);
     Page<Post> findAllPosts(Pageable pageable);
+    int countAllPosts();
 }
 

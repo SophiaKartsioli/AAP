@@ -1,7 +1,9 @@
 package AAP_CF8_Project.AAP.utils;
 
 
+import AAP_CF8_Project.AAP.domain.Admin;
 import AAP_CF8_Project.AAP.domain.User;
+import AAP_CF8_Project.AAP.services.AdminService;
 import AAP_CF8_Project.AAP.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -12,9 +14,11 @@ import java.time.LocalDateTime;
 public class DataInitialiser implements CommandLineRunner {
 
     private final UserService userService;
+    private final AdminService adminService;
 
-    public DataInitialiser(UserService userService) {
+    public DataInitialiser(UserService userService, AdminService adminService) {
         this.userService = userService;
+        this.adminService = adminService;
     }
 
     @Override
@@ -32,7 +36,17 @@ public class DataInitialiser implements CommandLineRunner {
 
             userService.save(user);
 
-            System.out.println("Default admin user created: " + user);
+            System.out.println("Default user created: " + user);
+
+        }
+
+        if (adminService.findByUsername("admin").isEmpty()) {
+            Admin admin = new Admin();
+            admin.setUsername("admin");
+            admin.setPassword("admin"); // plaintext for simplicity
+            adminService.save(admin);
+
+            System.out.println("Default admin  created: " + admin);
         }
     }
 }
