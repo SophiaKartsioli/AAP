@@ -1,5 +1,6 @@
 package AAP_CF8_Project.AAP.domain;
 
+import AAP_CF8_Project.AAP.security.Role;
 import jakarta.persistence.*;
 import java.util.Objects;
 import java.time.LocalDateTime;
@@ -40,6 +41,8 @@ public class User {
     @Column(name = "website" , length = 255)
     private String website;
 
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
 
     public User(){};
 
@@ -113,6 +116,14 @@ public class User {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override

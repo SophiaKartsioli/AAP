@@ -2,11 +2,20 @@ package AAP_CF8_Project.AAP.controller;
 
 
 import AAP_CF8_Project.AAP.domain.User;
+import AAP_CF8_Project.AAP.security.CustomUserDetails;
+import AAP_CF8_Project.AAP.security.Role;
 import AAP_CF8_Project.AAP.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
 
@@ -19,12 +28,16 @@ to create, save and delete a user from the DB of Users
 public class UserController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {this.userService = userService;}
+    public UserController(UserService userService) {
+        this.userService = userService;
+        this.passwordEncoder = new BCryptPasswordEncoder();
+    }
 
     //List with the users (R= read the db)
     @GetMapping()
-    public String users(Model model){
+    public String users(Model model) {
         model.addAttribute("users", userService.findAll());
 
         //CKECK IF THEY ARE SAVED
@@ -40,13 +53,13 @@ public class UserController {
 
     @GetMapping("/new")
     public String newUserForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("newuser", new User());
         return "user_form";
     }
 
 
     @PostMapping()
-    public String saveUser(@ModelAttribute("user") User formUser,  HttpSession session){
+    public String saveUser(@ModelAttribute("newuser") User formUser) {
         LocalDateTime now = LocalDateTime.now();
 
         if (formUser.getId() != 0 && userService.existsById(formUser.getId())) {
@@ -55,7 +68,9 @@ public class UserController {
             User existingUser = userService.findById(formUser.getId());
             existingUser.setUsername(formUser.getUsername());
             existingUser.setEmail(formUser.getEmail());
-            existingUser.setPasswordHash(formUser.getPasswordHash());
+            if (!formUser.getPasswordHash().isEmpty()) {
+                existingUser.setPasswordHash(passwordEncoder.encode(formUser.getPasswordHash()));
+            }
             existingUser.setBioText(formUser.getBioText());
             existingUser.setLastLogin(now); // optional
             userService.save(existingUser);
@@ -63,14 +78,18 @@ public class UserController {
             System.out.println("=== Create POST /users HIT ===");
 
             // New user
+            formUser.setPasswordHash(passwordEncoder.encode(formUser.getPasswordHash()));
             formUser.setCreatedDate(now);
             formUser.setLastLogin(now);
+            formUser.setRole(Role.USER);
             userService.save(formUser);
         }
 
-        session.setAttribute("loggedUser", formUser);
+        authenticateUser(formUser);
+
 
         return "redirect:/profile/" + formUser.getId();
+
     }
 
     // Edit form
@@ -87,12 +106,34 @@ public class UserController {
 
     //Delete User
     @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") int id){
+    public String deleteUser(@PathVariable("id") int id) {
         userService.deleteById(id);
         return "redirect:/admin/users";
     }
 
+    private void authenticateUser(User user) {
+        CustomUserDetails userDetails = new CustomUserDetails(
+                user.getUsername(),
+                user.getPasswordHash(),
+                user.getRole()
+        );
 
+        // Create an authentication token
+        var auth = new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities()
+        );
+
+        // Set the authentication in SecurityContext
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        // Optionally, if you're using a session-based authentication system, make sure the session is updated.
+        // This is done automatically by Spring when the user is authenticated, but just to be sure:
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+    }
 
 
 }

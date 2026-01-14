@@ -39,7 +39,7 @@
     <!-- Title -->
     <div class="card-text text-center display-6 my-2"> Join with Us! </div>
 
-    <form th:action="@{/users}" th:object="${user}" method="post">
+    <form th:action="@{/users}" th:object="${newuser}" method="post">
 
         <input type="hidden" th:field="*{id}"/>
 

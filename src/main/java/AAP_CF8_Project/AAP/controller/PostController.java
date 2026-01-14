@@ -3,18 +3,20 @@ package AAP_CF8_Project.AAP.controller;
 import AAP_CF8_Project.AAP.domain.Post;
 import AAP_CF8_Project.AAP.domain.PostImage;
 import AAP_CF8_Project.AAP.domain.User;
-import AAP_CF8_Project.AAP.repository.UserRepository;
+import AAP_CF8_Project.AAP.security.CustomUserDetails;
 import AAP_CF8_Project.AAP.services.PostImageService;
 import AAP_CF8_Project.AAP.services.PostService;
 import AAP_CF8_Project.AAP.services.UserService;
+import AAP_CF8_Project.AAP.utils.CurrentUser;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 
@@ -24,14 +26,16 @@ public class PostController {
     private final PostService postService;
     private final UserService userService;
     private final PostImageService postImageService;
+    private final CurrentUser currentUser;
 
     // Folder to save uploaded images
     private static final String UPLOAD_DIR = "uploads/";
 
-    public PostController(PostService postService, UserService userService, PostImageService postImageService) {
+    public PostController(PostService postService, UserService userService, PostImageService postImageService, CurrentUser currentUser) {
         this.postService = postService;
         this.userService = userService;
         this.postImageService = postImageService;
+        this.currentUser = currentUser;
     }
 
     // Show create post page
@@ -49,9 +53,8 @@ public class PostController {
             @RequestPart(value = "image", required = false) MultipartFile imageFile
     ) throws IOException {
 
-        User loggedUser = (User) session.getAttribute("loggedUser");
+        User loggedUser = currentUser.get();
         if (loggedUser == null) {
-            // If no user is logged in, redirect to login page
             return "redirect:/login?error=NotLoggedIn";
         }
 

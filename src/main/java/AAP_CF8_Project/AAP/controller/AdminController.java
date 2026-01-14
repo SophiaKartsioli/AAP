@@ -3,17 +3,27 @@ package AAP_CF8_Project.AAP.controller;
 import AAP_CF8_Project.AAP.domain.Admin;
 import AAP_CF8_Project.AAP.domain.Announcement;
 import AAP_CF8_Project.AAP.domain.User;
+import AAP_CF8_Project.AAP.repository.UserRepository;
+import AAP_CF8_Project.AAP.security.CustomUserDetails;
+import AAP_CF8_Project.AAP.security.Role;
 import AAP_CF8_Project.AAP.services.AdminService;
 import AAP_CF8_Project.AAP.services.AnnouncementService;
 import AAP_CF8_Project.AAP.services.PostService;
 import AAP_CF8_Project.AAP.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 
@@ -25,12 +35,14 @@ public class AdminController {
     private final UserService userService;
     private final PostService postService;
     private final AnnouncementService announcementService;
+    private final PasswordEncoder passwordEncoder;
 
-    public AdminController(AdminService adminService,UserService userService,PostService postService,AnnouncementService announcementService) {
+    public AdminController(AdminService adminService,UserService userService,PostService postService,AnnouncementService announcementService, PasswordEncoder passwordEncoder) {
         this.adminService = adminService;
         this.userService = userService;
         this.postService = postService;
         this.announcementService = announcementService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/login")
@@ -46,10 +58,24 @@ public class AdminController {
 
         Admin admin = adminService.findByUsername(username).orElse(null);
 
-        if (admin == null || !admin.getPassword().equals(password)) {
+//        if (admin == null || !admin.getPassword().equals(password)) {
+//            model.addAttribute("error", "Invalid username or password");
+//            return "admin_login";
+//        }
+        if (admin == null || !passwordEncoder.matches(password, admin.getPassword())) {
             model.addAttribute("error", "Invalid username or password");
             return "admin_login";
         }
+
+        // Use Spring Security's UsernamePasswordAuthenticationToken to authenticate
+        CustomUserDetails adminDetails = new CustomUserDetails(admin.getUsername(), admin.getPassword(), Role.ADMIN);
+        var auth = new UsernamePasswordAuthenticationToken(adminDetails, null, adminDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        // Optionally, if you're using a session-based authentication system, make sure the session is updated.
+        // This is done automatically by Spring when the user is authenticated, but just to be sure:
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
 
         // Save admin in session
         session.setAttribute("loggedAdmin", admin);

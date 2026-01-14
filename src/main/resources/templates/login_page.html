@@ -52,29 +52,19 @@
       <!-- Login Manually -->
     <form th:action="@{/login}" method="post" th:object="${loginUser}">
 
-        <div class="mb-3 input-group w-50 mx-auto">
-          <!-- <span class="input-group-text"><i class="fa-solid fa-user" ></i></span> -->
-          <input class="form-control"
-                 type="text"
-                 th:field="*{usernameOrEmail}"
-                 placeholder="Username or Email"
-                 required>
-        </div>
+      <div class="mb-3">
+        <input type="text" name="username" class="form-control" placeholder="Username or Email" required>
+      </div>
 
-        <div class="mb-3 input-group w-50 mx-auto">
-          <!-- <span class="input-group-text"><i class="fa-solid fa-password"></i></span> -->
-          <input class="form-control"
-                 type="password"
-                 th:field="*{password}"
-                 placeholder="Password"
-                 required>
-        </div>
+      <div class="mb-3">
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
+      </div>
 
         <div class="text-center mb-3 ">
           <button type="submit" class="btn btn-dark">Log In</button>
         </div>
 
-        <p class="text-center mt-4 fst-italic text-muted">Are you not memeber yet? Click to create your account!</p>
+        <p class="text-center mt-4 fst-italic text-muted">Are you not member yet? Click to create your account!</p>
 
         <div class="text-center mb-3 ">
           <a th:href="@{/users/new}" class="btn btn-dark">Create Account</a>

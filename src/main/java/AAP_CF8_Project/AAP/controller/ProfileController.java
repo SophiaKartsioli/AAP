@@ -4,6 +4,7 @@ import AAP_CF8_Project.AAP.domain.Post;
 import AAP_CF8_Project.AAP.domain.User;
 import AAP_CF8_Project.AAP.services.PostService;
 import AAP_CF8_Project.AAP.services.UserService;
+import AAP_CF8_Project.AAP.utils.CurrentUser;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +18,20 @@ public class ProfileController {
 
     private final UserService userService;
     private final PostService postService;
+    private final CurrentUser currentUser;
 
-    public ProfileController(UserService userService, PostService postService) {
+    public ProfileController(UserService userService, PostService postService, CurrentUser currentUser) {
         this.userService = userService;
         this.postService = postService;
+        this.currentUser = currentUser;
     }
 
 
     @GetMapping("/{id}")
     public String profile(@PathVariable int id, Model model) {
         User user = userService.findById(id);
+        if (user == null) return "redirect:/login";
+
         List<Post> posts = postService.findByUser(user);
 
         model.addAttribute("user", user);
@@ -37,7 +42,7 @@ public class ProfileController {
 
     @GetMapping("/edit")
     public String editProfile(HttpSession session, Model model) {
-        User loggedUser = (User) session.getAttribute("loggedUser");
+        User loggedUser = currentUser.get();
         if (loggedUser == null) {
             return "redirect:/login"; // redirect if not logged in
         }
@@ -55,7 +60,7 @@ public class ProfileController {
             @ModelAttribute("user") User updatedUser,
             HttpSession session
     ) {
-        User loggedUser = (User) session.getAttribute("loggedUser");
+        User loggedUser = currentUser.get();
         if (loggedUser == null) {
             return "redirect:/login"; // redirect if not logged in
         }

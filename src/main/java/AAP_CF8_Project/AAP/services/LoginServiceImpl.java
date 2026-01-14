@@ -16,25 +16,7 @@ public class LoginServiceImpl implements LoginService{
     }
 
     @Override
-    public Optional<User> loginUser(String usernameOrEmail, String rawPassword) {
-        Optional<User> userOpt =
-                usernameOrEmail.contains("@")
-                        ? userRepository.findByEmail(usernameOrEmail)
-                        : userRepository.findByUsername(usernameOrEmail);
-
-        if (userOpt.isEmpty()) {
-            return Optional.empty();
-        }
-
-        User user = userOpt.get();
-
-        if (!user.getPasswordHash().equals(rawPassword)) {
-            return Optional.empty();
-        }
-
-        user.setLastLogin(LocalDateTime.now());
-        userRepository.save(user);
-
-        return Optional.of(user);
+    public Optional<User> findByUsernameOrEmail(String usernameOrEmail) {
+        return userRepository.findByUsernameOrEmail(usernameOrEmail);
     }
 }

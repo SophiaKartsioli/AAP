@@ -4,6 +4,7 @@ import AAP_CF8_Project.AAP.domain.Post;
 import AAP_CF8_Project.AAP.domain.User;
 import AAP_CF8_Project.AAP.services.AnnouncementService;
 import AAP_CF8_Project.AAP.services.PostService;
+import AAP_CF8_Project.AAP.utils.CurrentUser;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,10 +22,12 @@ public class HomeController {
 
     private final PostService postService;
     private final AnnouncementService announcementService;
+    private final CurrentUser currentUser;
 
-    public HomeController(PostService postService,AnnouncementService announcementService) {
+    public HomeController(PostService postService,AnnouncementService announcementService, CurrentUser currentUser) {
         this.postService = postService;
         this.announcementService = announcementService;
+        this.currentUser = currentUser;
     }
 
     @GetMapping()
@@ -34,13 +37,8 @@ public class HomeController {
             Model model
     ) {
 
-        // Get the logged-in user from session
-        User loggedUser = (User) session.getAttribute("loggedUser");
-        if (loggedUser != null) {
-            model.addAttribute("user", loggedUser);
-        }else{
-            return "redirect:/login";
-        }
+        User loggedUser = currentUser.get();
+        if (loggedUser == null) return "redirect:/login";
 
         // Pageable with 5 posts per page, sorted by createdDate descending
         Pageable pageable = PageRequest.of(page, 2, Sort.by("createdDate").descending());

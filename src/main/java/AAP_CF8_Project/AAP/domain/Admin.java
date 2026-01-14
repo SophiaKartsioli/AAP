@@ -1,5 +1,6 @@
 package AAP_CF8_Project.AAP.domain;
 
+import AAP_CF8_Project.AAP.security.Role;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -15,6 +16,9 @@ public class Admin {
 
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.ADMIN;
 
     public Admin() {}
 
