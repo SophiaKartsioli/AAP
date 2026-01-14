@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Announcements</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Admin CSS -->
+    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+</head>
+<body class="bg-light">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-dark px-4">
+    <a class="navbar-brand" th:href="@{/admin/dashboard}">Artist Alley Portal</a>
+    <div class="ms-auto text-white">
+        <span th:text="${loggedAdmin.username}">Admin</span> Panel
+        <a th:href="@{/admin/logout}" class="btn btn-outline-light btn-sm ms-3">Logout</a>
+    </div>
+</nav>
+
+<!-- MAIN LAYOUT -->
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- SIDEBAR -->
+        <aside class="col-md-3 col-lg-2 bg-dark text-white sidebar py-4">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white" th:href="@{/admin/dashboard}">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" th:href="@{/admin/users}">
+                        <i class="bi bi-people"></i> Users
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white active" th:href="@{/admin/announcements}">
+                        <i class="bi bi-megaphone"></i> Announcements
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="col-md-9 col-lg-10 px-4 py-4">
+
+            <h4 class="mb-4">Manage Announcements</h4>
+
+            <div class="card">
+                <div class="card-body p-0">
+
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                        <tr>
+                            <th>Title</th>
+                            <th>Message</th>
+                            <th>Admin</th>
+                            <th>Status</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="a : ${announcements}">
+                            <td th:text="${a.title}">Title</td>
+                            <td th:text="${a.message}">Message</td>
+                            <td th:text="${a.admin.username}">Admin</td>
+
+                            <td>
+                                <span th:if="${a.active}" class="badge bg-success">Active</span>
+                                <span th:if="${!a.active}" class="badge bg-secondary">Disabled</span>
+                            </td>
+
+                            <td class="text-end">
+                                <form th:action="@{/admin/announcement/toggle}" method="post" class="d-inline">
+                                    <input type="hidden" name="id" th:value="${a.id}">
+                                    <button class="btn btn-sm"
+                                            th:classappend="${a.active} ? 'btn-warning' : 'btn-success'">
+                                        <span th:text="${a.active} ? 'Disable' : 'Enable'"></span>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(announcements)}">
+                            <td colspan="5" class="text-center text-muted py-4">
+                                No announcements found.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

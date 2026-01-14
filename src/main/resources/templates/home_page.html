@@ -99,27 +99,27 @@
 <!-- LATEST NEWS DIV -->
 <div class="rounded container-fluid center col-10 shadow-lg bg-light py-3">
     <h3 class="text-center title-colour fw-light lh-sm py-4">LATEST NEWS</h3>
+    <!-- No announcements -->
+    <div th:if="${#lists.isEmpty(announcements)}"
+         class="text-center text-muted py-4">
+        No announcements available.
+    </div>
 
-        <div class="shadow container-fluid col-8 forum-divs mb-3 py-2">
-            <a class="a-links" href="">
-                <h5 class="text-right title-colour fw-light lh-sm py-2">Artist Alley begginer guide</h5>
-            </a>
-        </div>
+    <!-- Announcements -->
+    <div th:each="announcement : ${announcements}"
+         class="shadow container-fluid col-8 forum-divs mb-3 py-3">
 
-        <div class="shadow container-fluid col-8 forum-divs mb-3 py-2">
-            <a class="a-links" href="">
-                <h5 class="text-right title-colour fw-light lh-sm py-2">AnimeCon Run Thessaloniki VII: Artist alley applications are open!</h5>
-            </a>
-        </div>
+        <h5 class="title-colour fw-light"
+            th:text="${announcement.title}">
+            Announcement title
+        </h5>
 
-        <div class="shadow container-fluid col-8 forum-divs mb-3 py-2">
-            <a class="a-links" href="">
-                <h5 class="text-right title-colour fw-light lh-sm py-2">Cyprus Comic Con: Artist Alley apllications are now open!</h5>
-            </a>
-        </div>
+        <p class="text-muted mb-0"
+           th:text="${announcement.message}">
+            Announcement message
+        </p>
 
-
-
+    </div>
 </div>
 
 <!-- FOOTER -->

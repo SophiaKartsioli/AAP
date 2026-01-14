@@ -2,6 +2,7 @@ package AAP_CF8_Project.AAP.controller;
 
 import AAP_CF8_Project.AAP.domain.Post;
 import AAP_CF8_Project.AAP.domain.User;
+import AAP_CF8_Project.AAP.services.AnnouncementService;
 import AAP_CF8_Project.AAP.services.PostService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/home")
 public class HomeController {
 
-    private PostService postService;
+    private final PostService postService;
+    private final AnnouncementService announcementService;
 
-    public HomeController(PostService postService) {
+    public HomeController(PostService postService,AnnouncementService announcementService) {
         this.postService = postService;
+        this.announcementService = announcementService;
     }
 
     @GetMapping()
@@ -35,6 +38,8 @@ public class HomeController {
         User loggedUser = (User) session.getAttribute("loggedUser");
         if (loggedUser != null) {
             model.addAttribute("user", loggedUser);
+        }else{
+            return "redirect:/login";
         }
 
         // Pageable with 5 posts per page, sorted by createdDate descending
@@ -42,6 +47,12 @@ public class HomeController {
         Page<Post> postPage = postService.findAllPosts(pageable);
 
         model.addAttribute("postPage", postPage);
+
+        model.addAttribute(
+                "announcements",
+                announcementService.findActiveAnnouncements()
+        );
+
         return "home_page";
     }
 }

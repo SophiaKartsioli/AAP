@@ -44,6 +44,11 @@
       <!-- Title -->
       <div class="card-text text-center display-6 mt-3 mb-4"> Login </div>
 
+    <p th:if="${error}"
+       th:text="${error}"
+       class="text-danger text-center fw-semibold">
+    </p>
+
       <!-- Login Manually -->
     <form th:action="@{/login}" method="post" th:object="${loginUser}">
 
