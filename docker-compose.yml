@@ -1,0 +1,37 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: aap-mysql
+    restart: always
+    environment:
+      # This MUST match the database name in your mysql properties
+      MYSQL_DATABASE: aap_database
+      MYSQL_ROOT_PASSWORD: root1@!
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: aap-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # 1. Activate the mysql profile
+      - SPRING_PROFILES_ACTIVE=mysql
+      # 2. Override localhost with the service name 'db'
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/aap_database?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root1@!
+
+volumes:
+  mysql_data:
