@@ -18,12 +18,13 @@ import java.util.UUID;
 @Service
 public class PostImageServiceImpl implements PostImageService {
 
-    @Value("${app.upload.dir}")
-    private String rootLocation;
     private Path uploadDir;
 
-    @PostConstruct
-    public void initializePath() {
+    public PostImageServiceImpl(@Value("${app.upload.dir}")String rootLocation){
+        initializePath(rootLocation);
+    }
+
+    public void initializePath(String rootLocation ) {
         uploadDir = Paths.get(rootLocation);
         try {
             Files.createDirectories(uploadDir);
