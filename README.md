@@ -8,13 +8,17 @@ This website built for astist who takes part in conventions and other events to 
 
 --Tech Stack--
 
-FORNT END -HTML/CSS/Javasctrpt/Thymeleaf
+FORNT END 
+-HTML/CSS/Javasctrpt/Thymeleaf
 
-BACKEND -Java/Spring Boot
+BACKEND 
+-Java/Spring Boot
 
-DATABASE -MySQL
+DATABASE 
+-MySQL
 
-OTHER TOOLS -GitHub -Docker
+OTHER TOOLS 
+-GitHub -Docker
 
 --Clone Repository--
 
@@ -38,9 +42,12 @@ You can verify Docker is installed by running:
 ```bash
 docker --version
 docker-compose --version
+```
 
-Run the application using Docker Compose
+Make sure you are in the root directory of the project, then run:
+
 docker-compose up --build
+
 
 Open your browser and visit:
 http://localhost:8080
