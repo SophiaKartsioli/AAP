@@ -11,6 +11,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+/**
+ * Spring Security configuration for the application.
+ *
+ * Configures the login and logout behavior and integrates
+ * custom user details service. It also provides a custom authentication handler
+ * to redirect users based on their assigned role.
+ */
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {

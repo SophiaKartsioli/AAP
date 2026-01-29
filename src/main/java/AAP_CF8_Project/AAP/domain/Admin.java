@@ -5,6 +5,14 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
+/**
+ * This entity represents the administrator (admin) of the application.
+ *
+ * This class is mapped to a database table and stores authentication
+ * and authorization information for admin users. Each admin has a
+ * unique username, password, and assigned ADMIN role by default.
+ */
+
 @Entity
 public class Admin {
     @Id

@@ -7,6 +7,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * This is the custom implementation of Srping Security.
+ *
+ * This class adapts application-specific user data to the interface,
+ * with Spring Security provides authentication and authentication operations based on role.
+ */
 public class CustomUserDetails implements UserDetails {
 
     private final String username;

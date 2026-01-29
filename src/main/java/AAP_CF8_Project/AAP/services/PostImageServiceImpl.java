@@ -15,6 +15,13 @@ import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * This is the service implementation for managing post image upload operations.
+ *
+ * It implements PostImageService to concrete business-logic for retrieving
+ * and persisting PostImage entity using PostImageRepository.
+ */
+
 @Service
 public class PostImageServiceImpl implements PostImageService {
 
@@ -28,9 +35,9 @@ public class PostImageServiceImpl implements PostImageService {
         uploadDir = Paths.get(rootLocation);
         try {
             Files.createDirectories(uploadDir);
-           // log.info("Upload directory initialized at {}", uploadDir.toAbsolutePath());
+
         } catch (IOException e) {
-           // log.error("Failed to initialize upload directory: {}", uploadDir, e);
+
             throw new RuntimeException("Could not initialize upload folder.", e);
         }
     }
@@ -45,7 +52,7 @@ public class PostImageServiceImpl implements PostImageService {
             Path destinationFile = uploadDir.resolve(uniqueFilename).normalize();
 
             Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
-            //log.debug("Stored file {} as {}", originalFilename, uniqueFilename);
+
 
             PostImage postImage = new PostImage();
             postImage.setImageUrl("/uploads/" + uniqueFilename);
@@ -55,7 +62,7 @@ public class PostImageServiceImpl implements PostImageService {
             return postImage;
 
         } catch (IOException e) {
-            //log.error("Failed to store file: {}", file.getOriginalFilename(), e);
+
             throw new RuntimeException("Failed to store file");
         }
     }

@@ -27,6 +27,14 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 
+/**
+ * This controller is responsible to handle operations for the admin.
+ * It is specifically designed to be accessible only from the admin.
+ * The controller saves the session of the admin leading to the dashboard page, where it is responsible
+ * for displaying the information of how many users are registered, how many posts are posted and
+ * gives the authority to create and upload announcements which are displayed on the home page.
+ */
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -58,26 +66,19 @@ public class AdminController {
 
         Admin admin = adminService.findByUsername(username).orElse(null);
 
-//        if (admin == null || !admin.getPassword().equals(password)) {
-//            model.addAttribute("error", "Invalid username or password");
-//            return "admin_login";
-//        }
         if (admin == null || !passwordEncoder.matches(password, admin.getPassword())) {
             model.addAttribute("error", "Invalid username or password");
             return "admin_login";
         }
 
-        // Use Spring Security's UsernamePasswordAuthenticationToken to authenticate
         CustomUserDetails adminDetails = new CustomUserDetails(admin.getUsername(), admin.getPassword(), Role.ADMIN);
         var auth = new UsernamePasswordAuthenticationToken(adminDetails, null, adminDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        // Optionally, if you're using a session-based authentication system, make sure the session is updated.
-        // This is done automatically by Spring when the user is authenticated, but just to be sure:
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
 
-        // Save admin in session
+
         session.setAttribute("loggedAdmin", admin);
 
         return "redirect:/admin/dashboard";
@@ -90,16 +91,12 @@ public class AdminController {
             return "redirect:/admin/login";
         }
 
-        // Fetch all users
         List<User> allUsers = userService.findAllUsers();
 
-        // Total users
-        int totalUsers = allUsers.size();
 
-        // Total posts
+        int totalUsers = allUsers.size();
         int totalPosts = postService.countAllPosts();
 
-        // Add to model
         model.addAttribute("loggedAdmin", admin); // for navbar/admin info
         model.addAttribute("users", allUsers);
         model.addAttribute("totalUsers", totalUsers);

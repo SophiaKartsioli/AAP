@@ -2,6 +2,15 @@ package AAP_CF8_Project.AAP.domain;
 
 import jakarta.persistence.*;
 
+/**
+ * This entity represents the announcements of the application.
+ *
+ * This class is mapped to a database table and stores the title and
+ * the message of each announcement where admin is submitting to the application.
+ * Announcements can be marked as active or inactive.
+ */
+
+
 @Entity
 public class Announcement {
 

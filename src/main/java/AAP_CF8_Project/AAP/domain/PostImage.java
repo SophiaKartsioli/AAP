@@ -4,6 +4,13 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
+/**
+ * This entity represents the post images of the application.
+ *
+ *This class is mapped to a database table and stores the url of the image that is related,
+ * the name of the image file.
+ */
+
 @Entity
 @Table(name = "POST_IMAGES")
 public class PostImage {
@@ -12,11 +19,9 @@ public class PostImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // URL or relative path of the image
     @Column(name = "image_url", length = 255, nullable = false)
     private String imageUrl;
 
-    // Optional: original file name
     @Column(name = "file_name", length = 255)
     private String fileName;
 

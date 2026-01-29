@@ -7,6 +7,13 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+/**
+ * This is the service interface responsible for authentication-related operations.
+ *
+ * Provides business-level functionality for locating users
+ * during the login process using either a username or an email.
+ */
+
 public interface PostService {
     Iterable<Post> findAll();
     List<Post> findByUser(User user);

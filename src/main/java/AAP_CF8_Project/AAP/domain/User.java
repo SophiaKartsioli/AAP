@@ -5,6 +5,13 @@ import jakarta.persistence.*;
 import java.util.Objects;
 import java.time.LocalDateTime;
 
+/**
+ * This entity represents the users of the application.
+ *
+ *This class is mapped to a database table and stores the name, email, password, bio,
+ * the time when the account was created and when it was last logged in, location and website.
+ * The user entity is assigned with the default role of USER.
+ */
 
 @Entity
 @Table (name="USERS")

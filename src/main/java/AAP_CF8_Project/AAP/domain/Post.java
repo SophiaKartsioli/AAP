@@ -7,6 +7,15 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * This entity represents the posts of the application.
+ *
+ *This class is mapped to a database table and stores the author who
+ * is the user who upload the post, the text that is contained, the creation date
+ * and the image that is an optional choice if the user wishes to add to their post.
+ */
+
+
 @Entity
 @Table(name = "POSTS")
 public class Post {
@@ -65,7 +74,7 @@ public class Post {
     public void setImage(PostImage image) {
         this.image = image;
         if (image != null) {
-            image.setPost(this); // maintain bidirectional consistency
+            image.setPost(this);
         }
     }
 

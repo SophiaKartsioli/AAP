@@ -6,6 +6,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * This is the service implementation for managing administration-related operations.
+ *
+ * It implements AdminsService to concrete business-logic for retrieving
+ * and persisting Admin entity using AdminRepository.
+ */
+
 @Service
 public class AdminServiceImpl implements AdminService {
     private final AdminRepository adminRepository;

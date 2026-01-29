@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * The Controller is responsible to display the posts that are created from the current user and other users as well,
+ * with the amount of the displayed posts limited to 2, sorted by create date.
+ */
 @Controller
 @RequestMapping("/home")
 public class HomeController {
@@ -40,7 +44,7 @@ public class HomeController {
         User loggedUser = currentUser.get();
         if (loggedUser == null) return "redirect:/login";
 
-        // Pageable with 5 posts per page, sorted by createdDate descending
+
         Pageable pageable = PageRequest.of(page, 2, Sort.by("createdDate").descending());
         Page<Post> postPage = postService.findAllPosts(pageable);
 

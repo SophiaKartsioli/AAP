@@ -8,6 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
+/**
+ * This is the service implementation for managing announcement-related operations.
+ *
+ * It implements AnnouncementService to concrete business-logic for retrieving
+ * and persisting Announcement entity using AnnouncementRepository.
+ */
+
 @Service
 public class AnnouncementServiceImpl implements AnnouncementService {
     private final AnnouncementRepository repo;

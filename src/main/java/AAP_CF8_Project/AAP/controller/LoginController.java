@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
 
+/**
+ * This is the Login Cotroller.
+ * The user puts their username and password to enter to their account.
+ * If the Controller does not find matching username or password it redirects again to the login page with a message of error.
+ */
+
 @Controller()
 @RequestMapping("/login")
 public class LoginController {
@@ -47,7 +53,6 @@ public class LoginController {
         }
         User user = userOpt.get();
 
-        // Use PasswordEncoder to compare raw password with encoded password
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPasswordHash())) {
             model.addAttribute("error", "Invalid username or password");
             return "login_page";

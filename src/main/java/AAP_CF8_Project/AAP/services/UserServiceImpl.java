@@ -8,6 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is the service implementation for managing user-related operations.
+ *
+ * It implements UserService to concrete business-logic for retrieving, creating, updating and deleting User entity.
+ * This service is an abstraction layer over UserRepository and ensures transactional integrity where required.
+ */
 @Service
 public class UserServiceImpl implements UserService {
 

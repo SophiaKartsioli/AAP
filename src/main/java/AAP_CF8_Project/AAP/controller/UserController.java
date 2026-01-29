@@ -19,9 +19,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
 
-/*
-User Controller using CRUD public classes
-to create, save and delete a user from the DB of Users
+/**
+ * This controller is responsible for operations related of the users.
+ * It handles listing the new users, creating new ones, editing existing ones and delete as well.
+ * For procotion also checks if the new user is listed.
+ *
  */
 @Controller()
 @RequestMapping("/users")
@@ -35,12 +37,11 @@ public class UserController {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    //List with the users (R= read the db)
+
     @GetMapping()
     public String users(Model model) {
         model.addAttribute("users", userService.findAll());
 
-        //CKECK IF THEY ARE SAVED
         Iterable<User> users = userService.findAll();
 
         System.out.println("USERS FOUND:");
@@ -64,7 +65,7 @@ public class UserController {
 
         if (formUser.getId() != 0 && userService.existsById(formUser.getId())) {
             System.out.println("=== Edit POST /users HIT ===");
-            // Update existing user
+
             User existingUser = userService.findById(formUser.getId());
             existingUser.setUsername(formUser.getUsername());
             existingUser.setEmail(formUser.getEmail());
@@ -77,7 +78,6 @@ public class UserController {
         } else {
             System.out.println("=== Create POST /users HIT ===");
 
-            // New user
             formUser.setPasswordHash(passwordEncoder.encode(formUser.getPasswordHash()));
             formUser.setCreatedDate(now);
             formUser.setLastLogin(now);
@@ -92,7 +92,7 @@ public class UserController {
 
     }
 
-    // Edit form
+
     @GetMapping("/edit/{id}")
     public String editUserForm(@PathVariable("id") int id, Model model) {
         User user = userService.findById(id);
@@ -104,7 +104,6 @@ public class UserController {
     }
 
 
-    //Delete User
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") int id) {
         userService.deleteById(id);
@@ -118,18 +117,14 @@ public class UserController {
                 user.getRole()
         );
 
-        // Create an authentication token
         var auth = new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
                 userDetails,
                 null,
                 userDetails.getAuthorities()
         );
 
-        // Set the authentication in SecurityContext
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        // Optionally, if you're using a session-based authentication system, make sure the session is updated.
-        // This is done automatically by Spring when the user is authenticated, but just to be sure:
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());

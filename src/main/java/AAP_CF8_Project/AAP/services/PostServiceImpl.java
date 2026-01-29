@@ -9,6 +9,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * This is the service implementation for managing post upload operations.
+ *
+ * It implements PostService to concrete business-logic for retrieving
+ * and persisting Post entity using PostRepository.
+ */
+
 @Service
 public class PostServiceImpl implements PostService {
 

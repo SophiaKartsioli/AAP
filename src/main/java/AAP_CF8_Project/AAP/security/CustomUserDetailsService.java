@@ -9,6 +9,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * This is the custom implementation of Srping Security.
+ *
+ * This service is responsible for loading user details during authentication.
+ * It provides authentication for both regular users and administrators. If
+ * no user is found then it attempts to authenticate as administrator.
+ */
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 

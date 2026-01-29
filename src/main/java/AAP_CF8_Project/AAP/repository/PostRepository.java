@@ -8,6 +8,13 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
+/**
+ * This is repository interface for managing Post entity.
+ *
+ * It provides the CRUD operations and custom query methods for
+ * listing posts sorted by creation date.
+ */
+
 public interface PostRepository extends CrudRepository<Post, Long> {
     List<Post> findByAuthorOrderByCreatedDateDesc(User user);
     Page<Post> findAll(Pageable pageable);

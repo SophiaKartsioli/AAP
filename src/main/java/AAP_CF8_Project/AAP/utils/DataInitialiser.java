@@ -12,6 +12,13 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
+/**
+ * This is utility responsible for initializing default application data.
+ *
+ *  This class runs at application startup and creates predefined User and Admin
+ *  accounts if they do not already exist in the database. It is primarily intended
+ *  for development and testing purposes.
+ */
 @Component
 public class DataInitialiser implements CommandLineRunner {
 
@@ -27,17 +34,17 @@ public class DataInitialiser implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Check if user already exists (optional)
+
         if (userService.findByUsername("test") == null) {
             User user = new User();
             user.setUsername("test");
             user.setEmail("test@example.com");
-            // Ideally hash your password; for testing you can store plaintext
-            user.setPasswordHash(passwordEncoder.encode("1234"));;
+
+            user.setPasswordHash(passwordEncoder.encode("1234"));
             user.setBioText("This is the default admin user.");
             user.setCreatedDate(LocalDateTime.now());
             user.setLastLogin(LocalDateTime.now());
-            //user.setRole("ROLE_USER");
+
 
             userService.save(user);
 
@@ -48,7 +55,7 @@ public class DataInitialiser implements CommandLineRunner {
         if (adminService.findByUsername("admin").isEmpty()) {
             Admin admin = new Admin();
             admin.setUsername("admin");
-            admin.setPassword(passwordEncoder.encode("admin"));; // plaintext for simplicity
+            admin.setPassword(passwordEncoder.encode("admin"));
             adminService.save(admin);
 
             System.out.println("Default admin  created: " + admin);

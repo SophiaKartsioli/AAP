@@ -16,7 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-
+/**
+ * This Controller is responsible for creating and uploading a post from the user.
+ * It displays the post creation page where the controller is also responsible to handle the submission of the posts.
+ * The posts may contain text and images, which are saved to a folder, and the creating date is submitted as well.
+ */
 @Controller
 @RequestMapping("/posts")
 public class PostController {
@@ -25,7 +29,6 @@ public class PostController {
     private final PostImageService postImageService;
     private final CurrentUser currentUser;
 
-    // Folder to save uploaded images
     private static final String UPLOAD_DIR = "uploads/";
 
     public PostController(PostService postService, UserService userService, PostImageService postImageService, CurrentUser currentUser) {
@@ -35,14 +38,12 @@ public class PostController {
         this.currentUser = currentUser;
     }
 
-    // Show create post page
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("post", new Post());
         return "create_post";
     }
 
-    // Handle post submission
     @PostMapping("/create")
     public String createPost(
             HttpSession session,
@@ -67,6 +68,6 @@ public class PostController {
 
         postService.save(post);
 
-        return "redirect:/profile/" + loggedUser.getId(); // back to profile page
+        return "redirect:/profile/" + loggedUser.getId();
     }
 }

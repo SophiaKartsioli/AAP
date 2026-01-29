@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The profile Controller is responsible for displaying all the information that was given form the user during the creation account.
+ * The user redirects from the login page to their own personal page.
+ * There is the option for the user to edit their profile where they get redirected to the edit profile page where they can change their username, bio, location and website.
+ * The Controller handles the submission of the edited profile and display the new information to their profile page.
+ */
 @Controller
 @RequestMapping("/profile")
 public class ProfileController {
@@ -44,17 +50,15 @@ public class ProfileController {
     public String editProfile(HttpSession session, Model model) {
         User loggedUser = currentUser.get();
         if (loggedUser == null) {
-            return "redirect:/login"; // redirect if not logged in
+            return "redirect:/login";
         }
 
-        // Optional: refresh from DB
         User user = userService.findById(loggedUser.getId());
         model.addAttribute("user", user);
 
-        return "profile_edit"; // your edit profile HTML
+        return "profile_edit";
     }
 
-    // Handle form submission for profile update
     @PostMapping("/update")
     public String updateProfile(
             @ModelAttribute("user") User updatedUser,
@@ -65,17 +69,14 @@ public class ProfileController {
             return "redirect:/login"; // redirect if not logged in
         }
 
-        // Load the current user from DB
         User user = userService.findById(loggedUser.getId());
 
-        // Update editable fields
         user.setBioText(updatedUser.getBioText());
-        user.setLocation(updatedUser.getLocation()); // add location field in User entity
-        user.setWebsite(updatedUser.getWebsite());   // add website field in User entity
+        user.setLocation(updatedUser.getLocation());
+        user.setWebsite(updatedUser.getWebsite());
 
         userService.save(user); // save changes
 
-        // Update session
         session.setAttribute("loggedUser", user);
 
         return "redirect:/profile/" + user.getId();
